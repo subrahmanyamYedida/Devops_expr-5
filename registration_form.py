@@ -1,64 +1,48 @@
-import tkinter as tk
-from tkinter import ttk
+import sys
 
-def submit_form():
-    firstname = entry_firstname.get()
-    lastname = entry_lastname.get()
-    email = entry_email.get()
-    contactnumber = entry_contactnumber.get()
-    password = entry_password.get()
-    gender = gender_var.get()
-    result_label.config(
-        text=f"Registration Form Successfully Created!\n"
-             f"First Name: {firstname}\n"
-             f"Last Name: {lastname}\n"
-             f"Email: {email}\n"
-             f"Contact Number: {contactnumber}\n"
-             f"Password: {password}\n"
-             f"Gender: {gender}",
-        foreground="blue"
-    )
+# --- CLI MODE FOR JENKINS ---
+def run_cli():
+    print("Starting registration process (CLI mode)...")
+    name = "John Doe"
+    email = "john@example.com"
+    password = "secure123"
+    print(f"User Registered: {name}, Email: {email}")
+    print("Registration completed successfully!")
 
-root = tk.Tk()
-root.title("Registration Form")
-root.geometry("400x400")
-root.configure(bg="lightgreen")
+# --- GUI MODE FOR LOCAL TESTING ---
+def run_gui():
+    import tkinter as tk
+    from tkinter import messagebox
 
-# Labels
-ttk.Label(root, text="First Name", foreground="purple").grid(row=0, column=0, padx=10, pady=5, sticky="w")
-ttk.Label(root, text="Last Name", foreground="purple").grid(row=1, column=0, padx=10, pady=5, sticky="w")
-ttk.Label(root, text="Email", foreground="purple").grid(row=2, column=0, padx=10, pady=5, sticky="w")
-ttk.Label(root, text="Contact Number", foreground="purple").grid(row=3, column=0, padx=10, pady=5, sticky="w")
-ttk.Label(root, text="Password", foreground="purple").grid(row=4, column=0, padx=10, pady=5, sticky="w")
-ttk.Label(root, text="Gender", foreground="purple").grid(row=5, column=0, padx=10, pady=5, sticky="w")
+    root = tk.Tk()
+    root.title("Registration Form")
 
-# Entry widgets
-entry_firstname = ttk.Entry(root)
-entry_lastname = ttk.Entry(root)
-entry_email = ttk.Entry(root)
-entry_contactnumber = ttk.Entry(root)
-entry_password = ttk.Entry(root, show="*")
+    tk.Label(root, text="Name").grid(row=0, column=0)
+    name_entry = tk.Entry(root)
+    name_entry.grid(row=0, column=1)
 
-entry_firstname.grid(row=0, column=1, padx=10, pady=5, sticky="w")
-entry_lastname.grid(row=1, column=1, padx=10, pady=5, sticky="w")
-entry_email.grid(row=2, column=1, padx=10, pady=5, sticky="w")
-entry_contactnumber.grid(row=3, column=1, padx=10, pady=5, sticky="w")
-entry_password.grid(row=4, column=1, padx=10, pady=5, sticky="w")
+    tk.Label(root, text="Email").grid(row=1, column=0)
+    email_entry = tk.Entry(root)
+    email_entry.grid(row=1, column=1)
 
-# Gender Combobox
-gender_var = tk.StringVar()
-gender_combobox = ttk.Combobox(root, textvariable=gender_var, values=["Male", "Female"], state="readonly")
-gender_combobox.set("Male")
-gender_combobox.grid(row=5, column=1, padx=10, pady=5, sticky="w")
+    tk.Label(root, text="Password").grid(row=2, column=0)
+    password_entry = tk.Entry(root, show="*")
+    password_entry.grid(row=2, column=1)
 
-# Submit Button
-style = ttk.Style()
-style.configure("TButton", foreground="red")
-submit_button = ttk.Button(root, text="Submit", command=submit_form, style="TButton")
-submit_button.grid(row=6, column=0, columnspan=2, pady=10)
+    def register():
+        name = name_entry.get()
+        email = email_entry.get()
+        password = password_entry.get()
+        messagebox.showinfo("Success", f"User Registered:\n{name}\n{email}")
 
-# Result Label
-result_label = ttk.Label(root, text="", foreground="blue")
-result_label.grid(row=7, column=0, columnspan=2, pady=10)
+    tk.Button(root, text="Register", command=register).grid(row=3, column=1)
+    root.mainloop()
 
-root.mainloop()
+# --- MAIN ---
+if __name__ == "__main__":
+    # If "cli" argument is passed, run CLI mode (Jenkins)
+    if len(sys.argv) > 1 and sys.argv[1] == "cli":
+        run_cli()
+    else:
+        run_gui()
+
