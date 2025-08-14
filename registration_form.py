@@ -38,7 +38,7 @@ def run_gui():
     tk.Button(root, text="Register", command=register).grid(row=3, column=1)
     root.mainloop()
 
-# --- MAIN ---
+# --- MAIN this is the testing code and i am writing dummy content typed here---
 if __name__ == "__main__":
     # If "cli" argument is passed, run CLI mode (Jenkins)
     if len(sys.argv) > 1 and sys.argv[1] == "cli":
